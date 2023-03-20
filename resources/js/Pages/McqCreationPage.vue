@@ -72,6 +72,10 @@ import { Link } from '@inertiajs/vue3';
 </template>
 
 <script>
+
+
+
+
 export default {
     data() {
         const classButtons = [
@@ -90,14 +94,14 @@ export default {
             "title" : ""
         };
         let colorSelected = -1;
-        let colorClassChoosen = ""
+        let colorClassChoosen = "";
         return {
             numberOfAnswer,
             numberOfQuestion,
             questionTab,
             mcq,
             classButtons,
-            colorSelected
+            colorSelected,
         }
     },
     methods: {
