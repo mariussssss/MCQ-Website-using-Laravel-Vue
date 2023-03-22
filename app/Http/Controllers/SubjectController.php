@@ -12,6 +12,7 @@ class SubjectController extends Controller
     public function show(Request $request, String $subjectId)
     {
         $subjectName = DB::table('subjects')->where('id', $subjectId)->value('name');
+        $subjectColor = DB::table('subjects')->where('id', $subjectId)->value('color');
         $questionsRows = DB::table('questions')->where('subject_id', $subjectId)->get();
         //dd($questionsRows[0]->text);
         $questionsAndAnswer = [];
@@ -22,6 +23,6 @@ class SubjectController extends Controller
                     ->where('question_id', $question->id)
                     ->get();
         }
-        return Inertia::render('McqPage', ['subjectName' => $subjectName, 'questionsAndAnswers' => $questionsAndAnswer]);
+        return Inertia::render('McqPage', ['subjectName' => $subjectName, 'questionsAndAnswers' => $questionsAndAnswer, "subjectColor" => $subjectColor]);
     }
 }
