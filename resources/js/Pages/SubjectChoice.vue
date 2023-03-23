@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid  sm:grid-cols-1 md:grid-cols-2 gap-4 ">
         <Link v-for="subject in $page.props.subjects" :href="route('mcqpage', subject.id)" class="shadow bg-gradient-to-br hover:bg-gradient-to-bl focus:ring-4 focus:outline-none rounded-lg text-2xl px-5 py-10 text-center mr-2 mb-2 font-medium" :class="[classButtons[subject.color-1]]">
             {{ subject.name }}
         </Link>

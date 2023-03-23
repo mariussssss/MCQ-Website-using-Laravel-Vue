@@ -41,6 +41,9 @@ Route::get('/mcq-creation-page', function () {
 ->middleware(['auth', 'verified'])
 ->name('mcqcreationpage');
 
+Route::post('/mcq-creation-page', [SubjectController::class, 'store'])
+->middleware(['auth', 'verified'])->name('mcqcreationpage.store');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

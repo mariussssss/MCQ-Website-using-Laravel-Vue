@@ -6,6 +6,8 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Question;
+use App\Models\Subject;
 
 class SubjectController extends Controller
 {
@@ -24,5 +26,15 @@ class SubjectController extends Controller
                     ->get();
         }
         return Inertia::render('McqPage', ['subjectName' => $subjectName, 'questionsAndAnswers' => $questionsAndAnswer, "subjectColor" => $subjectColor]);
+    }
+
+    public function store(Request $request)
+    {
+        $question = Subject::create([
+            'name' => $request->title,
+            'color' => 5
+        ]);
+
+        return redirect()->route('home');
     }
 }

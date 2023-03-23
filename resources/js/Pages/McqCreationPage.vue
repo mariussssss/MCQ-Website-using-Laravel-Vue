@@ -1,26 +1,22 @@
-<script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { Link } from '@inertiajs/vue3';
-</script>
-
 <template>
     <Head title="Make your own" />
     <AuthenticatedLayout>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="">
-                    <div class="pl-6 flex items-center mb-4">
-                        <label class="block font-medium text-gray-900 dark:text-white">Title : </label>
-                        <input v-model="mcq.title" type="text" class="ml-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your title ..." required>
-                    </div>
-                    <div class="pl-6 flex items-center mb-4">
-                        <label class="block font-medium text-gray-900 dark:text-white">Theme color : </label>
-                        <button v-for="(color, index) in classButtons" @click=" colorSelected = index" :class=" colorSelected == index ? 'border-solid border-black outline outline-2 outline-yellow-400 border-2 ' + color.class : color.class" class="cursor-pointer ml-2 w-20 h-20 bg-gradient-to-br hover:bg-gradient-to-tl rounded-lg mr-2 mb-2" >
-                            
+                    <form @submit.prevent="form.post(route('mcqcreationpage.store'))">
+                        <label class="ml-4 block font-medium text-gray-900 dark:text-white">Title : </label>
+                        <input v-model="form.title" type="text" class="ml-4 mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your title ..." required>
+                        <button type="submit" class=" text-white from-purple-600 to-blue-500 focus:ring-blue-300 dark:focus:ring-blue-800 bg-gradient-to-br hover:bg-gradient-to-bl focus:ring-4 focus:outline-none rounded-lg px-5 py-2.5 w-32 text-center  mb-2 font-medium">Submit</button>
+
+                    </form>
+                    
+                    <label class="ml-4 mt-6 block font-medium text-gray-900 dark:text-white">Theme color : </label>
+                    <div class="ml-4 mt-2 flex justify-start">
+                        <button v-for="(color, index) in classButtons" @click=" colorSelected = index" :class=" colorSelected == index ? 'border-solid border-black outline outline-2 outline-yellow-400 border-2 ' + color.class : color.class" class="cursor-pointer w-20 h-20 bg-gradient-to-br hover:bg-gradient-to-tl rounded-lg mr-4 mb-2" >
                         </button>
                     </div>
+                    
                     <!-- <div class="pl-6 flex items-center mb-4">
                         <label class="block font-medium text-gray-900 dark:text-white">Preview : </label>
                         <button :class="[colorClassChoosen]" class="text-2xl px-5 py-10 w-40 h-90 text-center cursor-pointer border-gray-200 peer-checked:border-blue-600 ml-2 bg-gradient-to-br hover:bg-gradient-to-tl focus:ring-4 rounded-lg text-center mr-2 mb-2 peer-checked:border-blue-600">
@@ -28,7 +24,7 @@ import { Link } from '@inertiajs/vue3';
                         </button>
                     </div> -->
                     
-                    <form>
+                    <form class="mt-6" >
                         <div v-for="(question,index) in questionTab" class=" p-6 pt-3 mb-4 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="mb-6">
                                 <div class="flex justify-between">
@@ -57,11 +53,11 @@ import { Link } from '@inertiajs/vue3';
                         </div>
                         <div class="flex justify-between">
                             <div class="pl-6 flex items-center mb-4">
-                                <div>
-                                    <label class="block font-medium text-gray-900 dark:text-white">Add a question : </label>
+                                <div class="w-36">
+                                    <label class="block font-medium text-gray-900 dark:text-white">Add a question :</label>
                                     <label class="block font-medium text-gray-900 dark:text-gray-500 text-xs">(you can have up to 20 questions in total)</label>
                                 </div>
-                                <input type="text" id="questInput" v-model="numberOfQuestion" :class="classForTooMuchQuest" class="ml-2 sm:text-xs w-10 h-8 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <input type="text" id="questInput" v-model="numberOfQuestion" :class="classForTooMuchQuest" class="ml-0 sm:text-xs w-10 h-8 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                                 <button @click="addQuestions" :disabled="questionTab.length >= 20" type="button" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add</button>
                             </div>
                             <button type="submit" class=" text-white from-purple-600 to-blue-500 focus:ring-blue-300 dark:focus:ring-blue-800 bg-gradient-to-br hover:bg-gradient-to-bl focus:ring-4 focus:outline-none rounded-lg px-5 py-2.5 w-32 text-center  mb-2 font-medium">Submit</button>
@@ -76,9 +72,24 @@ import { Link } from '@inertiajs/vue3';
 <script>
 
 
-
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head, useForm } from '@inertiajs/vue3';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { Link } from '@inertiajs/vue3';
 
 export default {
+    components: {
+        AuthenticatedLayout, Head, FontAwesomeIcon
+    },
+    setup(){
+        const form = useForm ({
+            title : '',
+            //color : '',
+            //questionTab : [{"text" : "","numberOfAnswer" : 4, "answers" : ["", "", "", ""]}]
+        });
+
+        return { form }
+    },
     data() {
         const classButtons = [
             {"class" : "from-purple-600 to-blue-500"},
@@ -93,7 +104,7 @@ export default {
         let numberOfQuestion = 1;
         let questionTab = [{"text" : "","numberOfAnswer" : 4, "answers" : ["", "", "", ""]}];
         let mcq = {
-            "title" : ""
+            title : ""
         };
         let colorSelected = -1;
         let classForTooMuchQuest = "";
