@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
+use App\Models\Subject;
+use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Question;
-use App\Models\Subject;
+use App\Http\Requests\StoreMcqRequest;
 
 class SubjectController extends Controller
 {
@@ -28,12 +29,18 @@ class SubjectController extends Controller
         return Inertia::render('McqPage', ['subjectName' => $subjectName, 'questionsAndAnswers' => $questionsAndAnswer, "subjectColor" => $subjectColor]);
     }
 
-    public function store(Request $request)
+    public function store(StoreMcqRequest $request)
     {
-        $question = Subject::create([
-            'name' => $request->title,
-            'color' => 5
+
+        $formData = $request->validated();
+
+
+        $subject = Subject::create([
+            'name' => $formData["name"],
+            'color' => $formData["color"]
         ]);
+
+
 
         return redirect()->route('home');
     }
