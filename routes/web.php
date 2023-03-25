@@ -18,18 +18,23 @@ use App\Http\Controllers\DashboardController;
 |
 */
 
-Route::get('/', function () {
+
+/* Route::get('/', function () { 
+    return redirect()->route('home');
+}); */
+
+Route::redirect('/', '/home');
+/* Route::get('/', function () { 
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+}); */
 
-Route::get('/home', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('home');
-
-/* Route::inertia('mcq-page','McqPage')->middleware(['auth', 'verified'])->name('mcqpage'); */
+Route::get('/home', [DashboardController::class, 'show'])
+->name('home');
 
 Route::get('/mcq-page/{subjectId}', [SubjectController::class, 'show'])
 ->middleware(['auth', 'verified'])

@@ -3,9 +3,12 @@
         <Link v-for="subject in $page.props.subjects" :href="route('mcqpage', subject.id)" class="shadow bg-gradient-to-br hover:bg-gradient-to-bl focus:ring-4 focus:outline-none rounded-lg text-2xl px-5 py-10 text-center mr-2 mb-2 font-medium" :class="[classButtons[subject.color-1]]">
             {{ subject.name }}
         </Link>
-        <Link :href="route('mcqcreationpage')" class="bg-gradient-to-br hover:bg-gradient-to-bl focus:ring-4 focus:outline-none rounded-lg text-2xl px-5 py-10 text-center mr-2 mb-2 font-medium" :class="[classButtons[6-1]]">
+        <Link v-if="$page.props.auth.user" :href="route('mcqcreationpage')" class="shadow bg-gradient-to-br hover:bg-gradient-to-bl focus:ring-4 focus:outline-none rounded-lg text-2xl px-5 py-10 text-center mr-2 mb-2 font-medium" :class="[classButtons[6-1]]">
             Make your own
         </Link>
+        <div v-else class="text-center text-2xl font-medium py-10">
+            Log in to access Discover !
+        </div>
     </div>
 </template>
 

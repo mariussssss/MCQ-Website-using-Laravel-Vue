@@ -4,10 +4,8 @@ import { Head } from '@inertiajs/vue3';
 import SubjectChoice from '@/Pages/SubjectChoice.vue'
 </script>
 
-
-
 <template>
-    <Head title="Dashboard" />
+    <Head title="Home" />
 
     <AuthenticatedLayout>
         <template #header>

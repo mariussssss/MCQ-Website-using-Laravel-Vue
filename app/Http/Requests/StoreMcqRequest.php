@@ -27,7 +27,17 @@ class StoreMcqRequest extends FormRequest
             'questionTab' => 'required|array|min:1',
             'questionTab.*.text' => 'required',
             'questionTab.*.answers' => 'required|array|min:2|max:4',
-            'questionTab.*.answers.*' => 'required'
+            'questionTab.*.answers.*' => 'required',
+            'questionTab.*.answers.*.text' => 'required',
+            'questionTab.*.answers.*.isCorrect' => 'required'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'questionTab.*.text' => 'The question field is required',
+            'questionTab.*.answers.*.text'  => 'The answer field is required',
         ];
     }
 }
