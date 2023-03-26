@@ -11,8 +11,7 @@ class DashboardController extends Controller
 {
     public function show(Request $request)
     {
-        $subjects = DB::table('subjects')->select('id', 'name', 'color')->get();
-        //dd($subjectsName);
+        $subjects = DB::table('principal_subjects')->select('id', 'name', 'color')->get();
         return Inertia::render('Dashboard', ['subjects' => $subjects]);
     }
 }

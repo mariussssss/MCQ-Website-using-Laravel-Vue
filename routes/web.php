@@ -3,9 +3,11 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\McqController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\DiscoverController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PrincipalMcqController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,9 +38,11 @@ Route::redirect('/', '/home');
 Route::get('/home', [DashboardController::class, 'show'])
 ->name('home');
 
-Route::get('/mcq-page/{subjectId}', [SubjectController::class, 'show'])
-->middleware(['auth', 'verified'])
+Route::get('/mcq-page/{subjectId}', [PrincipalMcqController::class, 'show'])
 ->name('mcqpage');
+
+Route::get('/discover',[DiscoverController::class,'show'])
+->name('discover');
 
 Route::get('/mcq-creation-page', function () {
     return Inertia::render('McqCreationPage');
@@ -46,7 +50,7 @@ Route::get('/mcq-creation-page', function () {
 ->middleware(['auth', 'verified'])
 ->name('mcqcreationpage');
 
-Route::post('/mcq-creation-page', [SubjectController::class, 'store'])
+Route::post('/mcq-creation-page', [McqController::class, 'store'])
 ->middleware(['auth', 'verified'])->name('mcqcreationpage.store');
 
 Route::middleware('auth')->group(function () {
