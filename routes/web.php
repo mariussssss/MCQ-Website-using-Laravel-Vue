@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\McqController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DiscoverController;
 use App\Http\Controllers\DashboardController;
@@ -39,7 +40,15 @@ Route::get('/home', [DashboardController::class, 'show'])
 ->name('home');
 
 Route::get('/mcq-page/{subjectId}', [PrincipalMcqController::class, 'show'])
+->name('mcqhomepage');
+
+Route::get('/discover/mcq-page/{subjectId}', [McqController::class, 'show'])
+->middleware(['auth', 'verified'])
 ->name('mcqpage');
+
+Route::post('/discover/post-grade', [GradeController::class, 'store'])
+->middleware(['auth', 'verified'])
+->name('postgrade.store');
 
 Route::get('/discover',[DiscoverController::class,'show'])
 ->name('discover');
@@ -47,7 +56,6 @@ Route::get('/discover',[DiscoverController::class,'show'])
 Route::get('/mcq-creation-page', function () {
     return Inertia::render('McqCreationPage');
 })
-->middleware(['auth', 'verified'])
 ->name('mcqcreationpage');
 
 Route::post('/mcq-creation-page', [McqController::class, 'store'])

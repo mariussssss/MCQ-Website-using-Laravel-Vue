@@ -11,5 +11,5 @@ class Subject extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['name','color'];
+    protected $fillable = ['name','color','user_id'];
 }

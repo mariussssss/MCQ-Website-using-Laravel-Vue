@@ -1,14 +1,14 @@
 <script setup>
-
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
     <Head :title="subjectName" />
     <AuthenticatedLayout>
         <div class="py-12">
-            <div v-if="userRate" class="text-white px-12 pb-6">
-                You have rated this MCQ : {{ userRate }} out of 5
-            </div>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div :class="bgClasses[subjectColor-1].class" class="p-6 mb-5 text-4xl font-medium text-gray-900 dark:text-white bg-gradient-to-br">
@@ -47,43 +47,11 @@
                                 </div>
                             </button>
                         </Link>
-                    </div>  
-                </div>
-            </div>
-            <div v-if="!userRate && clicked" class="px-6 pt-6">
-                <div class="flex flex-wrap justify-center items-center mt-2">
-                    <div class="text-white">
-                        <p class="text-xl text-medium">
-                            How difficult was this MCQ ?
-                        </p> 
-                        <p class="text-sm text-gray-300">
-                            
-                            <font-awesome-icon v-for="i in 5" class="text-xs text-gray-600" :class="i == 1 ? 'text-yellow-500' : ''" icon="fa-solid fa-star" />
-                            = Very easy, 
-                        </p>
-                        <p class="text-sm text-gray-300">
-
-                            <font-awesome-icon v-for="i in 5" class="text-xs text-yellow-500" icon="fa-solid fa-star" />
-                            = Very difficult 
-                        </p>
-                            
-                        
-                    </div>
-                    <div class="flex flex-row-reverse justify-end ml-4 pt-2">
-                        <div v-for="i in 5" @click="chooseGrade(i)" class="cursor-pointer text-3xl text-gray-600 peer peer-hover:text-yellow-500 hover:text-yellow-500 " :class="i>=selectedStar ? ' text-yellow-500' : ''">
-                            <font-awesome-icon icon="fa-solid fa-star" />
-                        </div>
                         
                     </div>
                     
-                    <form @submit.prevent="form.post(route('postgrade.store'))">
-                        <button type="submit" :disabled="form.processing || form.grade > 5 " class="ml-5 mt-5 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                            Send
-                        </button>
-                    </form>
-                </div>  
+                </div>
             </div>
-            
         </div>
     </AuthenticatedLayout>
     
@@ -92,23 +60,9 @@
 
 <script>
 import { computed } from 'vue'
-import { Head, usePage, useForm } from '@inertiajs/vue3'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { Link } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3'
 
 export default {
-    components: {
-        AuthenticatedLayout, Head, FontAwesomeIcon, Link
-    },
-    setup(){
-        const form = useForm ({
-            grade : 10,
-            subjectId : computed(() => usePage().props.subjectId)
-        });
-
-        return { form }
-    },
     data() {
         const bgClasses = [
             {"class" : "from-purple-600 to-blue-500"},
@@ -122,17 +76,14 @@ export default {
         const questionsAndAnswers = computed(() => usePage().props.questionsAndAnswers)
         const subjectName = computed(() => usePage().props.subjectName)
         const subjectColor = computed(() => usePage().props.subjectColor)
-        const userRate = computed(() => usePage().props.userRate)
         const blueBorder = "peer-checked:border-blue-600"
         const greenBorder = "dark:border-green-600"
         const redBorder = "dark:border-red-600"
         const clicked = false;
-        const selectedStar = 10;
         return {
             questionsAndAnswers,
             subjectName,
             subjectColor,
-            userRate,
             bgClasses,
             numberOfGoodAnswer : "",
             size : "",
@@ -140,7 +91,6 @@ export default {
             greenBorder,
             redBorder,
             clicked,
-            selectedStar
         }
         
     },
@@ -164,10 +114,6 @@ export default {
             this.numberOfGoodAnswer = this.allAnswerGood()["numberOfCorrectAnswer"];
             this.size = this.allAnswerGood()["numberOfQuestion"];
             this.clicked = true;
-        },
-        chooseGrade(index){
-            this.selectedStar = index;
-            this.form.grade = 6-index;
         }
     }
 

@@ -56,7 +56,7 @@ import { Link } from '@inertiajs/vue3';
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="subject in $page.props.subjects" class="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
+                                    <tr v-for="subject in $page.props.subjects.data" class="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
                                         <th scope="row" class="px-2 pl-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {{ subject.name }}
                                         </th>
@@ -64,19 +64,22 @@ import { Link } from '@inertiajs/vue3';
                                             {{ subject.id }}
                                         </td>
                                         <td class="px-2 py-4">
-                                            <p class="agent-note text-yellow-600">
-                                                <font-awesome-icon v-for="i in Math.floor(moyenne_note2/2)" icon="fa-solid fa-star" />
-                                                <font-awesome-icon v-for="i in verif" icon="fa-regular fa-star-half-stroke" />
-                                                <font-awesome-icon v-for="i in Math.floor(5-moyenne_note2/2)" icon="fa-regular fa-star" />
-                                            </p>                                        
+                                            <p v-if="subject.rate" class="agent-note text-yellow-600">
+                                                <font-awesome-icon v-for="i in Math.floor(subject.rate)" icon="fa-solid fa-star" />
+                                                <font-awesome-icon v-if="subject.rate - Math.floor(subject.rate) > 0" icon="fa-regular fa-star-half-stroke" />
+                                                <font-awesome-icon v-for="i in Math.floor(5-subject.rate)" icon="fa-regular fa-star" />
+                                            </p>      
+                                            <p v-else>
+                                                Unrated
+                                            </p>                                  
                                         </td>
                                         <td class="px-2 py-4">
-                                            MOSSS™
+                                            {{ subject.user_name }}
                                         </td>
                                         <td class="py-1 pr-1">
                                             <Link :href="route('mcqpage', subject.id)" type="button" class="shadow bg-gradient-to-br hover:bg-gradient-to-bl focus:ring-4 focus:outline-none rounded-lg text-base px-4 py-1.5 text-center" :class="[classButtons[subject.color-1]]">
                                                 Play
-                                            </Link>
+                                            </Link> 
                                         </td>
                                     </tr>
                                 </tbody>

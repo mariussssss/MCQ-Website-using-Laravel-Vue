@@ -8,7 +8,7 @@ import { Link } from '@inertiajs/vue3';
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="place-content-center py-12 2xl:py-20">
                 <div class="text-center text-gray-500 text-3xl opacity-30">
-                    <font-awesome-icon icon="fa-solid fa-unlock" />
+                    <font-awesome-icon icon="fa-solid fa-lock" />
                 </div>
                 
                 <div class="text-2xl font-medium text-white text-center px-10 mt-2">

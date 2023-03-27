@@ -9,25 +9,40 @@ use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreMcqRequest;
+use Illuminate\Validation\ValidationException;
 
 class McqController extends Controller
 {
     public function show(Request $request, String $subjectId)
     {
-        $subjectName = DB::table('subjects')->where('id', $subjectId)->value('name');
-        $subjectColor = DB::table('subjects')->where('id', $subjectId)->value('color');
-        $questionsRows = DB::table('questions')->where('subject_id', $subjectId)->get();
-        //dd($questionsRows[0]->text);
-        $questionsAndAnswer = [];
-        foreach($questionsRows as $question){
-            $questionsAndAnswer[$question->text] = 
-                DB::table('answers')
-                    ->select('id', 'text', 'is_correct', 'is_checked')
-                    ->where('question_id', $question->id)
-                    ->get();
+        if (Auth::check()) {
+            $subjectName = DB::table('subjects')->where('id', $subjectId)->value('name');
+            $subjectColor = DB::table('subjects')->where('id', $subjectId)->value('color');
+            $questionsRows = DB::table('questions')->where('subject_id', $subjectId)->get();
+            $userRate = DB::table('difficulty_scores')->where('subject_id', $subjectId)
+                        ->where('user_id', Auth::id())->value('score');
+            //dd($questionsRows[0]->text);
+            $questionsAndAnswer = [];
+            foreach($questionsRows as $question){
+                $questionsAndAnswer[$question->text] = 
+                    DB::table('answers')
+                        ->select('id', 'text', 'is_correct', 'is_checked')
+                        ->where('question_id', $question->id)
+                        ->get();
+            }
+            return Inertia::render('McqPage', [
+                'subjectId' => $subjectId,
+                'subjectName' => $subjectName, 
+                'questionsAndAnswers' => $questionsAndAnswer, 
+                'subjectColor' => $subjectColor,
+                'userRate' => $userRate
+            ]);
         }
-        return Inertia::render('McqPage', ['subjectName' => $subjectName, 'questionsAndAnswers' => $questionsAndAnswer, "subjectColor" => $subjectColor]);
+        else {
+            return Inertia::render('McqPage');
+        }
     }
 
     public function store(StoreMcqRequest $request)
@@ -57,7 +72,8 @@ class McqController extends Controller
         
         $subject = Subject::create([
             'name' => $formData["name"],
-            'color' => $formData["color"]
+            'color' => $formData["color"],
+            'user_id' => Auth::id()
         ]);
 
         $subjectId = $subject->toArray()["id"];
@@ -78,6 +94,6 @@ class McqController extends Controller
             }
         }
 
-        return redirect()->route('home');
+        return redirect()->route('discover');
     }
 }

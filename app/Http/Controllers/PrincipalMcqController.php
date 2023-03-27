@@ -23,6 +23,6 @@ class PrincipalMcqController extends Controller
                     ->where('question_id', $question->id)
                     ->get();
         }
-        return Inertia::render('McqPage', ['subjectName' => $subjectName, 'questionsAndAnswers' => $questionsAndAnswer, "subjectColor" => $subjectColor]);
+        return Inertia::render('McqPageHome', ['subjectName' => $subjectName, 'questionsAndAnswers' => $questionsAndAnswer, "subjectColor" => $subjectColor]);
     }
 }

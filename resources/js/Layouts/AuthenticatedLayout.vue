@@ -38,6 +38,11 @@ const showingNavigationDropdown = ref(false);
                                     Discover
                                 </NavLink>
                             </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <NavLink :href="route('mcqcreationpage')" :active="route().current('mcqcreationpage')">
+                                    Make your own
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -131,9 +136,14 @@ const showingNavigationDropdown = ref(false);
                             Home
                         </ResponsiveNavLink>
                     </div>
-                    <div class="pt-1 pb-3 space-y-1">
+                    <div class="pt-1 space-y-1">
                         <ResponsiveNavLink :href="route('discover')" :active="route().current('discover')">
                             Discover
+                        </ResponsiveNavLink>
+                    </div>
+                    <div class="pt-1 pb-3 space-y-1">
+                        <ResponsiveNavLink :href="route('mcqcreationpage')" :active="route().current('mcqcreationpage')">
+                            Make your own
                         </ResponsiveNavLink>
                     </div>
 

@@ -1,7 +1,10 @@
 <template>
     <Head title="Make your own" />
     <AuthenticatedLayout>
-        <div class="py-12">
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Make your own</h2>
+        </template>
+        <div v-if="$page.props.auth.user" class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="">
                     <form @submit.prevent="form.post(route('mcqcreationpage.store'))">
@@ -65,12 +68,15 @@
                                     <input type="text" id="questInput" v-model="numberOfQuestionToAdd" class="ml-0 sm:text-xs w-10 h-8 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <button @click="addQuestions" :disabled="form.questionTab.length >= 20" type="button" class="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add</button>
                                 </div>
-                                <button type="submit" :disabled="form.processing" class=" text-white from-purple-600 to-blue-500 focus:ring-blue-300 dark:focus:ring-blue-800 bg-gradient-to-br hover:bg-gradient-to-bl focus:ring-4 focus:outline-none rounded-lg px-5 py-2.5 w-32 text-center  mb-2 font-medium">Submit</button>
+                                <button type="submit" :disabled="form.processing" class=" mr-2 text-white from-purple-600 to-blue-500 focus:ring-blue-300 dark:focus:ring-blue-800 bg-gradient-to-br hover:bg-gradient-to-bl focus:ring-4 focus:outline-none rounded-lg px-5 py-2.5 w-32 text-center  mb-2 font-medium">Submit</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
+        </div>
+        <div v-else>
+            <NotLogDiscover></NotLogDiscover>
         </div>
     </AuthenticatedLayout>
 </template>
@@ -80,12 +86,12 @@
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { Link } from '@inertiajs/vue3';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import NotLogDiscover from '@/Layouts/NotLogDiscover.vue';
 
 export default {
     components: {
-        AuthenticatedLayout, Head, FontAwesomeIcon
+        AuthenticatedLayout, Head, FontAwesomeIcon, NotLogDiscover
     },
     setup(){
         const form = useForm ({

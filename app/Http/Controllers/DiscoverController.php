@@ -13,7 +13,20 @@ class DiscoverController extends Controller
     public function show(Request $request)
     {
         if (Auth::check()) {
-            $subjects = DB::table('subjects')->select('id', 'name', 'color')->get();
+            $subjects = DB::table('subjects')
+                        ->join('users', 'subjects.user_id', '=', 'users.id')
+                        ->select('subjects.id', 'subjects.name', 'subjects.color', 'users.name as user_name')
+                        ->paginate(5); //->get() if i don't want to paginate
+            
+            foreach($subjects as $subject){
+                $subject->rate = 
+                    DB::table('difficulty_scores')
+                        ->where('subject_id', $subject->id)
+                        ->avg('score');
+            }
+
+            //dd($subjects);
+            
             return Inertia::render('Discover', ['subjects' => $subjects]);
         }
         else{
