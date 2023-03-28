@@ -34,11 +34,11 @@
                         </ul>
                     </div>
                     <div class="px-4 py-3 flex justify-between sm:px-6">
-                        <button type="submit" @click="submitAnswer" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-2 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                        <Link :href="route('score.store')" method="post" as="button" preserve-scroll type="submit" @click="submitAnswer" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-2 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                             <div class="py-0 px-5 text-lg">
                                 Submit
                             </div>
-                        </button>
+                        </Link>
                         <p v-if="clicked" class="px-9 py-3 text-2xl text-white "> You have reached {{ numberOfGoodAnswer }} of {{ size }} points, ({{ parseInt(numberOfGoodAnswer * 100 / size) }}%)</p> 
                         <Link v-if="clicked" href="">
                             <button class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-2 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
@@ -76,7 +76,7 @@
                         
                     </div>
                     
-                    <form @submit.prevent="form.post(route('postgrade.store'))">
+                    <form @submit.prevent="form.post(route('grade.store'))">
                         <button type="submit" :disabled="form.processing || form.grade > 5 " class="ml-5 mt-5 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                             Send
                         </button>

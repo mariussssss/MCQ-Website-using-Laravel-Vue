@@ -13,25 +13,37 @@ import { Link } from '@inertiajs/vue3';
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Discover</h2>
         </template>
-        <div v-if="$page.props.subjects">
+        <div v-if="subjects">
             <div class="py-12">
                 <div class="px-4 sm:px-8 lg:px-10 text-lg font-semibold text-left text-gray-900 dark:text-white">
                     <div class="m-0 p-0">
-                        MCQ galore
+                        MCQ gallery
                     </div>
                     
                     <p class="text-sm font-normal text-gray-500 dark:text-gray-400">Have fun trying to solve the MCQs on the topics you like, or look for your friends' MCQs!</p>
                     <div class="mt-3">
                         <label for="table-search" class="sr-only">Search</label>
-                        <div class="relative mt-1">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                        <div class="flex flex-wrap gap-x-3 gap-y-2 mb-4">
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                                </div>
+                                <input type="text" @click="searchById = ''" v-model="searchByName" class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search MCQ by name">
                             </div>
-                            <input type="text" id="table-search" class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search MCQ by ID">
+                            <div class="font-normal mt-1">
+                                or
+                            </div>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+                                </div>
+                                <input type="text" @click="searchByName = ''" v-model="searchById" class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search MCQ by ID">
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-3">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-2">
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="relative overflow-x-auto sm:rounded-lg">
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400  ">
@@ -56,7 +68,7 @@ import { Link } from '@inertiajs/vue3';
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="subject in $page.props.subjects.data" class="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
+                                    <tr v-for="(subject,key) in subjects.data" :class="key+1 == subjects.data.length ? '' : ' border-b '" class="bg-white dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row" class="px-2 pl-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {{ subject.name }}
                                         </th>
@@ -85,6 +97,30 @@ import { Link } from '@inertiajs/vue3';
                                 </tbody>
                             </table>
                         </div>
+                        
+                    </div>
+                    <div v-if="subjects.total != 0 " class="flex flex-col items-center mt-2">
+                        <!-- Help text -->
+                        <span  class="text-sm text-gray-700 dark:text-gray-400">
+                            Showing <span class="font-semibold text-gray-900 dark:text-white">{{ subjects.from }}</span> to <span class="font-semibold text-gray-900 dark:text-white">{{ subjects.to }}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{ subjects.total }}</span> MCQs
+                        </span>
+                        <!-- Buttons -->
+                        <div class="inline-flex mt-2 xs:mt-0">
+                            <Component :is="subjects.prev_page_url ? 'Link' : 'span'" :href="subjects.prev_page_url" preserve-scroll class=" px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ">
+                                Prev
+                            </Component>
+                            <Component :is="subjects.next_page_url ? 'Link' : 'span'" :href="subjects.next_page_url" preserve-scroll class="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                Next
+                            </Component>
+                        </div>                        
+                    </div>
+                    <div v-else class="text-gray-700 dark:text-gray-400 flex flex-col  items-center mt-10 mb-44">
+                        <div class="text-lg text-white font-medium">
+                            No results were found 
+                        </div>
+                        <div>
+                            Make sure you have enter the correct ID or Name
+                        </div>
                     </div>
                 </div>
             </div>
@@ -97,9 +133,14 @@ import { Link } from '@inertiajs/vue3';
 
 <script>
 
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
 
 export default{
+    props:{
+        filters : Object,
+        subjects : Object
+    },
 
     data(){
         const classButtons = [
@@ -114,13 +155,35 @@ export default{
         ];
         const moyenne_note2 = 3;
         const verif = 1;
+        let searchByName = ref(this.filters.searchByName);
+        let searchById = ref(this.filters.searchById);
+
+        watch(searchByName, value => {
+            this.$inertia.get('/discover', {searchByName : value}, {
+                preserveState : true,
+                replace: true
+            });
+            
+        });
+
+        watch(searchById, value => {
+            this.$inertia.get('/discover', {searchById : value}, {
+                preserveState : true,
+                replace: true
+            });
+        });
+
         return {
             classButtons,
             moyenne_note2,
-            verif
+            verif,
+            searchByName,
+            searchById
         }
     },
-    
+    watch: {
+
+    },
     components: {
         Link
     },

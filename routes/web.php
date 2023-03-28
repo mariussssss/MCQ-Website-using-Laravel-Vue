@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\McqController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DiscoverController;
 use App\Http\Controllers\DashboardController;
@@ -48,7 +49,11 @@ Route::get('/discover/mcq-page/{subjectId}', [McqController::class, 'show'])
 
 Route::post('/discover/post-grade', [GradeController::class, 'store'])
 ->middleware(['auth', 'verified'])
-->name('postgrade.store');
+->name('grade.store');
+
+Route::post('/discover/post-score', [ScoreController::class, 'store'])
+->middleware(['auth', 'verified'])
+->name('score.store');
 
 Route::get('/discover',[DiscoverController::class,'show'])
 ->name('discover');
