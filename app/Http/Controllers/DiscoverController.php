@@ -22,27 +22,26 @@ class DiscoverController extends Controller
                             }
                             else if (array_key_exists('searchByName', $searchIdOrName)){
                                 $query->where('subjects.name', 'like', '%' . $searchIdOrName['searchByName'] . '%');
-                            }                           
+                            }
                         })
-                        
                         ->join('users', 'subjects.user_id', '=', 'users.id')
                         ->select('subjects.id', 'subjects.name', 'subjects.color', 'users.name as user_name')
                         ->paginate(15)
                         ->withQueryString(); //->get() if i don't want to paginate
-            
+
                         /* ->when($request->string('searchById'), function ($query, $id){
                             $query->where('subjects.id', 'like', $id );
                         }) */
 
             foreach($subjects as $subject){
-                $subject->rate = 
+                $subject->rate =
                     DB::table('difficulty_scores')
                         ->where('subject_id', $subject->id)
                         ->avg('score');
             }
 
             //dd($subjects);
-            
+
             return Inertia::render('Discover', ['subjects' => $subjects, 'filters' => [
                 'searchByName' => $request->query('searchByName'),
                 'searchById' => $request->query('searchById')

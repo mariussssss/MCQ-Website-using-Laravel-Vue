@@ -12,7 +12,7 @@
                         <input v-model="form.name" type="text" class="ml-4 mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your title ...">
                         <div v-if="errors.name" class="ml-4 mt-1 text-sm text-red-600">
                             {{ errors.name }}
-                        </div> 
+                        </div>
                         <label class="ml-4 mt-6 block font-medium text-gray-900 dark:text-white">Theme color : </label>
                         <div class="ml-4 mt-2 flex justify-start">
                             <button type="button" v-for="(color, index) in classButtons" @click=" form.color = index + 1" :class=" form.color === index + 1? 'border-solid border-black outline outline-2 outline-yellow-400 border-2 ' + color.class : color.class" class="cursor-pointer w-20 h-20 bg-gradient-to-br hover:bg-gradient-to-tl rounded-lg mr-4" >
@@ -20,7 +20,7 @@
                         </div>
                         <div v-if="errors.color" class="ml-4 mt-1 text-sm text-red-600">
                             {{ errors.color }}
-                        </div>                       
+                        </div>
                         <div class="mt-6" >
                             <div v-for="(question,index) in form.questionTab" class=" p-6 pt-3 mb-4 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                                 <div class="mb-6">
@@ -43,7 +43,7 @@
                                         </button>
                                         <button type="button" :disabled="question.answers.length<=2" @click="question.answers.pop()" class="ml-4 text-red-500 text-lg  disabled:opacity-60" >
                                             <font-awesome-icon icon="fa-solid fa-minus" />
-                                        </button>                 
+                                        </button>
                                     </div>
                                     <div v-for="(answer,answerIndex) in question.answers" class="mb-2">
                                         <div class="flex items-center ">
@@ -52,12 +52,12 @@
                                         </div>
                                         <div v-if="errors['questionTab.'+index+'.answers.'+answerIndex+'.text']" class="m-0 p-0 text-sm text-red-600">
                                             {{ errors['questionTab.'+index+'.answers.'+answerIndex+'.text'] }}
-                                        </div> 
+                                        </div>
                                     </div>
                                 </div>
                                 <div v-if="errors['question_'+index]" class="text-sm text-red-600">
                                     {{ errors['question_'+index] }}
-                                </div> 
+                                </div>
                             </div>
                             <div class="flex justify-between">
                                 <div class="pl-6 flex items-center mb-4">

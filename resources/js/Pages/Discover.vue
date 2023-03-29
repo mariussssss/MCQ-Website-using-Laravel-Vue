@@ -19,7 +19,7 @@ import { Link } from '@inertiajs/vue3';
                     <div class="m-0 p-0">
                         MCQ gallery
                     </div>
-                    
+
                     <p class="text-sm font-normal text-gray-500 dark:text-gray-400">Have fun trying to solve the MCQs on the topics you like, or look for your friends' MCQs!</p>
                     <div class="mt-3">
                         <label for="table-search" class="sr-only">Search</label>
@@ -40,14 +40,14 @@ import { Link } from '@inertiajs/vue3';
                                 <input type="text" @click="searchByName = ''" v-model="searchById" class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search MCQ by ID">
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-2">
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="relative overflow-x-auto sm:rounded-lg">
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400  ">
-                                
+
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
                                     <tr>
                                         <th scope="col" class="px-2 pl-6  py-3">
@@ -80,10 +80,10 @@ import { Link } from '@inertiajs/vue3';
                                                 <font-awesome-icon v-for="i in Math.floor(subject.rate)" icon="fa-solid fa-star" />
                                                 <font-awesome-icon v-if="subject.rate - Math.floor(subject.rate) > 0" icon="fa-regular fa-star-half-stroke" />
                                                 <font-awesome-icon v-for="i in Math.floor(5-subject.rate)" icon="fa-regular fa-star" />
-                                            </p>      
+                                            </p>
                                             <p v-else>
                                                 Unrated
-                                            </p>                                  
+                                            </p>
                                         </td>
                                         <td class="px-2 py-4">
                                             {{ subject.user_name }}
@@ -91,13 +91,13 @@ import { Link } from '@inertiajs/vue3';
                                         <td class="py-1 pr-1">
                                             <Link :href="route('mcqpage', subject.id)" type="button" class="shadow bg-gradient-to-br hover:bg-gradient-to-bl focus:ring-4 focus:outline-none rounded-lg text-base px-4 py-1.5 text-center" :class="[classButtons[subject.color-1]]">
                                                 Play
-                                            </Link> 
+                                            </Link>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        
+
                     </div>
                     <div v-if="subjects.total != 0 " class="flex flex-col items-center mt-2">
                         <!-- Help text -->
@@ -112,11 +112,11 @@ import { Link } from '@inertiajs/vue3';
                             <Component :is="subjects.next_page_url ? 'Link' : 'span'" :href="subjects.next_page_url" preserve-scroll class="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                 Next
                             </Component>
-                        </div>                        
+                        </div>
                     </div>
                     <div v-else class="text-gray-700 dark:text-gray-400 flex flex-col  items-center mt-10 mb-44">
                         <div class="text-lg text-white font-medium">
-                            No results were found 
+                            No results were found
                         </div>
                         <div>
                             Make sure you have enter the correct ID or Name
@@ -155,15 +155,19 @@ export default{
         ];
         const moyenne_note2 = 3;
         const verif = 1;
-        let searchByName = ref(this.filters.searchByName);
-        let searchById = ref(this.filters.searchById);
-
+        let searchByName = ref('');
+        let searchById = ref('');
+        if (this.filters) {
+            searchByName = ref(this.filters.searchByName);
+            //
+            searchById = ref(this.filters.searchById);
+        }
         watch(searchByName, value => {
             this.$inertia.get('/discover', {searchByName : value}, {
                 preserveState : true,
                 replace: true
             });
-            
+
         });
 
         watch(searchById, value => {
@@ -180,9 +184,6 @@ export default{
             searchByName,
             searchById
         }
-    },
-    watch: {
-
     },
     components: {
         Link

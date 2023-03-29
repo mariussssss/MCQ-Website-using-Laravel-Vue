@@ -17,27 +17,46 @@ class McqController extends Controller
 {
     public function show(Request $request, String $subjectId)
     {
+        /* if($request->query('data')) {
+            $data = $request->query('data');
+            dd(filter_var(       '1', FILTER_VALIDATE_BOOLEAN));
+            dd($data);
+            return Inertia::render('McqPage', [
+                'subjectId' => $data['subjectId'],
+                'subjectName' => $data['subjectName'],
+                'questionsAndAnswers' => $data['questionsAndAnswers'],
+                'subjectColor' => $data['subjectColor'],
+                'userRate' => $data['userRate']
+            ]);
+        } */
         if (Auth::check()) {
             $subjectName = DB::table('subjects')->where('id', $subjectId)->value('name');
             $subjectColor = DB::table('subjects')->where('id', $subjectId)->value('color');
             $questionsRows = DB::table('questions')->where('subject_id', $subjectId)->get();
             $userRate = DB::table('difficulty_scores')->where('subject_id', $subjectId)
                         ->where('user_id', Auth::id())->value('score');
-            //dd($questionsRows[0]->text);
+
+            $userScore = DB::table('scores')->where('subject_id', $subjectId)
+                        ->select('no_questions', 'no_correct_answers')
+                        ->where('user_id', Auth::id())
+                        ->first();
+
             $questionsAndAnswer = [];
             foreach($questionsRows as $question){
-                $questionsAndAnswer[$question->text] = 
+                $questionsAndAnswer[$question->text] =
                     DB::table('answers')
                         ->select('id', 'text', 'is_correct', 'is_checked')
                         ->where('question_id', $question->id)
                         ->get();
             }
+
             return Inertia::render('McqPage', [
                 'subjectId' => $subjectId,
-                'subjectName' => $subjectName, 
-                'questionsAndAnswers' => $questionsAndAnswer, 
+                'subjectName' => $subjectName,
+                'questionsAndAnswers' => $questionsAndAnswer,
                 'subjectColor' => $subjectColor,
-                'userRate' => $userRate
+                'userRate' => $userRate,
+                'userScore' => $userScore
             ]);
         }
         else {
@@ -69,7 +88,7 @@ class McqController extends Controller
         if (!empty($errorsTab)){
             throw $error;
         }
-        
+
         $subject = Subject::create([
             'name' => $formData["name"],
             'color' => $formData["color"],
