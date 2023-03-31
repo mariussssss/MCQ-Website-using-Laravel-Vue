@@ -7,7 +7,7 @@
     <AuthenticatedLayout>
         <div v-if="subjectName" class="py-12" >
             <div  class="  sm:mx-12  overflow-hidden ">
-                <div :class="bgClasses[subjectColor-1].class" class=" sm:rounded-lg bg-gradient-to-r p-6 text-4xl font-medium  ">
+                <div :class="bgClasses[subjectColor-1].class" class=" sm:rounded-lg bg-gradient-to-r p-6 text-4xl font-bold  ">
                     {{ subjectName }}
                 </div>
                 <div v-if="userScore"  class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 font-medium"> <!-- grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 -->

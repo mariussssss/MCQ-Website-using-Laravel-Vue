@@ -23,12 +23,12 @@ use App\Http\Controllers\PrincipalMcqController;
 */
 
 
-/* Route::get('/', function () { 
+/* Route::get('/', function () {
     return redirect()->route('home');
 }); */
 
 Route::redirect('/', '/home');
-/* Route::get('/', function () { 
+/* Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -57,6 +57,18 @@ Route::post('/discover/post-score', [ScoreController::class, 'store'])
 
 Route::get('/discover',[DiscoverController::class,'show'])
 ->name('discover');
+
+Route::get('/your-mcqs', function () {
+    return Inertia::render('YourMCQs');
+})
+->middleware(['auth', 'verified'])
+->name('yourmcqs');
+
+Route::get('/your-results', function () {
+    return Inertia::render('YourResults');
+})
+->middleware(['auth', 'verified'])
+->name('yourresults');
 
 Route::get('/mcq-creation-page', function () {
     return Inertia::render('McqCreationPage');

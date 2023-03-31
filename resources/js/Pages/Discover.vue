@@ -76,10 +76,11 @@ import { Link } from '@inertiajs/vue3';
                                             {{ subject.id }}
                                         </td>
                                         <td class="px-2 py-4">
-                                            <p v-if="subject.rate" class="agent-note text-yellow-600">
+                                            <p v-if="subject.rate" class="text-yellow-400">
                                                 <font-awesome-icon v-for="i in Math.floor(subject.rate)" icon="fa-solid fa-star" />
                                                 <font-awesome-icon v-if="subject.rate - Math.floor(subject.rate) > 0" icon="fa-regular fa-star-half-stroke" />
                                                 <font-awesome-icon v-for="i in Math.floor(5-subject.rate)" icon="fa-regular fa-star" />
+                                                <span class="font-bold text-gray-500 ml-1">{{ (Math.round(subject.rate * 10) / 10).toFixed(1) }}</span>
                                             </p>
                                             <p v-else>
                                                 Unrated

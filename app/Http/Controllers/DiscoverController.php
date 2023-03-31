@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,8 +27,7 @@ class DiscoverController extends Controller
                         })
                         ->join('users', 'subjects.user_id', '=', 'users.id')
                         ->select('subjects.id', 'subjects.name', 'subjects.color', 'users.name as user_name')
-                        ->paginate(10)
-                        ->withQueryString(); //->get() if i don't want to paginate
+                        ->paginate(10)->withQueryString(); //->get() if i don't want to paginate
 
                         /* ->when($request->string('searchById'), function ($query, $id){
                             $query->where('subjects.id', 'like', $id );

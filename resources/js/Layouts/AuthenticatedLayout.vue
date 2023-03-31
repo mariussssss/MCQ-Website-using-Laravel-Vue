@@ -5,6 +5,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { Link } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
@@ -75,10 +76,40 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
-                                        <DropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
+                                        <DropdownLink :href="route('profile.edit')">
+                                            <div class="flex items-center justify-start">
+                                                <font-awesome-icon icon="fa-solid fa-user self-center" />
+                                                <div class="ml-2">
+                                                    Profile
+                                                </div>
+
+                                            </div>
+
                                         </DropdownLink>
+                                        <DropdownLink :href="route('yourmcqs')">
+                                            <div class="flex items-center justify-start">
+                                                <font-awesome-icon icon="fa-solid fa-pen-to-square" />
+                                                <div class="ml-2">
+                                                    Your MCQs
+                                                </div>
+                                            </div>
+                                        </DropdownLink>
+                                        <DropdownLink :href="route('yourresults')">
+                                            <div class="flex items-center justify-start">
+                                                <font-awesome-icon icon="fa-solid fa-square-poll-vertical" />                                                <div class="ml-2">
+                                                    Your Results
+                                                </div>
+                                            </div>
+                                        </DropdownLink>
+                                        <DropdownLink :href="route('logout')" method="post" as="button">
+                                            <div class="flex items-center justify-start text-red-500">
+                                                <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
+                                                <div class="ml-2">
+                                                    Log Out
+                                                </div>
+                                            </div>
+                                        </DropdownLink>
+
                                     </template>
                                 </Dropdown>
                                 <template v-else>
@@ -157,9 +188,42 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('profile.edit')">
+                                <div class="flex items-center justify-start">
+                                    <font-awesome-icon icon="fa-solid fa-user" />
+                                    <div class="ml-2">
+                                        Profile
+                                    </div>
+
+                                </div>
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('yourmcqs')">
+                                <div class="flex items-center justify-start">
+                                    <font-awesome-icon icon="fa-solid fa-pen-to-square" />
+                                    <div class="ml-2">
+                                        Your MCQs
+                                    </div>
+
+                                </div>
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink :href="route('yourresults')">
+                                <div class="flex items-center justify-start">
+                                    <font-awesome-icon icon="fa-solid fa-square-poll-vertical" />
+                                    <div class="ml-2">
+                                        Your Results
+                                    </div>
+
+                                </div>
+                            </ResponsiveNavLink>
+
                             <ResponsiveNavLink :href="route('logout')" method="post" as="button">
-                                Log Out
+                                <div class="flex items-center justify-start">
+                                    <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
+                                    <div class="ml-2">
+                                        Log Out
+                                    </div>
+
+                                </div>
                             </ResponsiveNavLink>
                         </div>
                     </div>
