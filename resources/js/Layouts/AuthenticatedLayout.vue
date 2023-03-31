@@ -12,7 +12,7 @@ const showingNavigationDropdown = ref(false);
 
 <template>
     <div>
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-screen bg-gray-100 dark:bg-gray-900  scroll-smooth">
             <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,7 +55,7 @@ const showingNavigationDropdown = ref(false);
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                            
+
                                                 {{ $page.props.auth.user.name }}
 
                                                 <svg
@@ -79,7 +79,7 @@ const showingNavigationDropdown = ref(false);
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
                                         </DropdownLink>
-                                    </template>                                    
+                                    </template>
                                 </Dropdown>
                                 <template v-else>
                                     <Link :href="route('login')" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">
@@ -165,8 +165,8 @@ const showingNavigationDropdown = ref(false);
                     </div>
                     <div v-else>
                         <div class="space-y-1">
-                            <ResponsiveNavLink :href="route('login')"> 
-                                Log in 
+                            <ResponsiveNavLink :href="route('login')">
+                                Log in
                             </ResponsiveNavLink>
                             <ResponsiveNavLink :href="route('register')">
                                 Register
@@ -176,7 +176,7 @@ const showingNavigationDropdown = ref(false);
                 </div>
             </nav>
 
-            
+
             <!-- Page Heading -->
             <header class="bg-white dark:bg-gray-800 shadow" v-if="$slots.header">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -191,7 +191,7 @@ const showingNavigationDropdown = ref(false);
             <footer class="bg-white shadow dark:bg-gray-800">
                 <div class="w-full mx-auto container md:p-6 p-4 md:flex md:items-center md:justify-between">
                     <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-                        © 2023 
+                        © 2023
                         <a href="" class="hover:underline">
                             MOSSS™
                         </a>. All Rights Reserved.
